@@ -1,0 +1,16 @@
+---
+layout:     post
+title:      "Welcome to SIPC Android's blog"
+subtitle:   " \"SIPC Android组的博客建立了\""
+date:       2018-08-213 17:19:00
+author:     "孟祥钊"
+header-img: "img/post-bg-2015.jpg"
+tags:
+    - Android
+---
+
+###  我们的博客就这么建立了
+
+以后会不定期在此平台分享优质内容
+
+
