@@ -1,0 +1,251 @@
+# Android shape 使用指南和常用属性 
+
+## 1为什么使用shape：
+
+	在项目的开发中会遇到各种各样的背景设置和使用，如果直接使用图片会导致app变大，因此可以使用在xml中声明shape属性来绘制想要的使用的背景
+
+   
+
+# 2 shape的常见属性标签
+
+### 1.shape 的创建 	
+
+​	在drable下新建shape文件如图​				
+
+### 2.shape的属性
+
+在shape中
+
+android：shape=  可以指定图形形状，分别是rectangle(长方形) oval（椭圆） line（线） ring（环形）
+
+默认是rectangle（长方形）
+
+你会发现其中是没有圆 但在椭圆中指定的长宽一样的时候就是圆了
+
+
+
+shape下的标签 （corners、gradient、padding、size、solid、stroke）
+
+其中size，和padding 是可以在使用的layout中就可以指定，所以一般无需指定
+
+
+
+ - **solid**: 设置形状填充的颜色，只有android:color一个属性
+
+   - *android:color* 填充的颜色
+- **size**: 设置大小
+  -  *android:height*
+  - *android:weight*
+
+- **padding**: 设置内容与形状边界的内间距，可分别设置左右上下的距离
+
+  - *android:left* 左内间距
+  - *android:right* 右内间距
+  - *android:top* 上内间距
+  - *android:bottom* 下内间距
+
+- **gradient**: 设置形状的渐变颜色，可以是线性渐变、辐射渐变、扫描性渐变
+
+  - android:type 
+
+    渐变的类型
+
+    - *linear* 线性渐变，默认的渐变类型
+    - *radial* 放射渐变，设置该项时，android:gradientRadius也必须设置
+    - *sweep* 扫描性渐变
+
+  - *android:startColor* 渐变开始的颜色
+
+  - *android:endColor* 渐变结束的颜色
+
+  - *android:centerColor* 渐变中间的颜色
+
+  - *android:angle* 渐变的角度，线性渐变时才有效，必须是45的倍数，0表示从左到右，90表示从下到上
+
+  - *android:centerX* 渐变中心的相对X坐标，放射渐变时才有效，在0.0到1.0之间，默认为0.5，表示在正中间
+
+  - *android:centerY* 渐变中心的相对X坐标，放射渐变时才有效，在0.0到1.0之间，默认为0.5，表示在正中间
+
+  - *android:gradientRadius* 渐变的半径，只有渐变类型为radial时才使用
+
+  - *android:useLevel* 如果为true，则可在LevelListDrawable中使用
+
+- **corners**: 设置圆角，只适用于rectangle类型，可分别设置四个角不同半径的圆角，当设置的圆角半径很大时，比如200dp，就可变成弧形边了
+
+  - *android:radius* 圆角半径，会被下面每个特定的圆角属性重写
+  - *android:topLeftRadius* 左上角的半径
+  - *android:topRightRadius* 右上角的半径
+  - *android:bottomLeftRadius* 左下角的半径
+  - *android:bottomRightRadius* 右下角的半径
+
+- **stroke**: 设置描边，可描成实线或虚线。
+
+- - *android:color* 描边的颜色
+  - *android:width* 描边的宽度
+  - *android:dashWidth* 设置虚线时的横线长度
+  - *android:dashGap* 设置虚线时的横线之间的距离
+
+## 3.shape的常见设计
+
+### 1. Rectangle
+
+![常见的rectangle](http://keeganlee.me/android/_image/20150830/S50829-115225.jpg "常见的图片")
+
+简单说一下如何上面的效果
+
+①弧线边 ： 首先得设置size
+
+```xml
+<size android:height="10dp"
+       android:width="25dp"/>
+<corners
+        android:topLeftRadius="4dp"
+        android:topRightRadius="5dp"
+        android:bottomLeftRadius="4dp"
+        android:bottomRightRadius="5dp"/>
+```
+
+
+
+首先确定你要实现弧形边的方向，比如说左右两侧，则左上角的弧和左下角的弧度相等且大于等于height值得一半
+
+②渐变（图中第三个）：在gradient 先
+
+```xml
+<gradient
+    android:angle="90"
+    android:startColor="@color/white"
+    android:endColor="@color/colorBlack"
+    />
+```
+
+angal 默认是0度，angle 设置的值只能是45度的整数倍
+
+③镂空描边
+
+```xml
+<stroke
+    android:color="@color/colorRed"
+    android:width="1dp"
+    android:dashGap="1dp"
+    android:dashWidth="1dp"/>
+```
+
+（实线就是去掉dashGap 和 dashWidth）
+
+小结：corners 标签只在 shape为 rectangle 中有用
+
+### 2.oval
+
+![yuan](http://keeganlee.me/android/_image/20150830/097E4ABF-0D82-4FEA-BC76-F37AB37EB94C.jpeg)
+
+一般是实现正圆，两种一开始就设置高宽相等，或是在使用中指定高宽相等
+
+```xml
+<size android:height="25dp"
+       android:width="25dp"/>
+```
+
+3,4,5 号实现由rectangle 同理推知
+
+
+
+①渐变圆
+
+```xml
+<gradient
+    android:gradientRadius="25dp"
+    android:type="radial"
+    android:startColor="@color/varyWhite"
+    android:endColor="@color/colorBlack"
+    />
+```
+
+
+
+注意在type 为radial（放射）是一定要指定
+
+android:gradientRadius
+
+
+
+### 3line
+
+![line](http://keeganlee.me/android/_image/20150830/4C634096-CD97-4C5B-99B4-434CC0951631.jpeg)
+
+```xml
+<stroke android:color="@color/douban_Title"
+    android:width="15dp"
+    />
+
+<size android:height="1dp"/>
+```
+
+1. 只能画水平线，画不了竖线；
+2. 线的高度是通过stroke的android:width属性设置的；
+3. size的android:height属性定义的是整个形状区域的高度；
+4. 线在整个形状区域中是居中显示的；
+5. 线左右两边会留有空白间距，线越粗，空白越大；
+6. 引用虚线的view需要添加属性android:layerType，值设为"software"，否则显示不了虚线。
+
+### 3ring
+
+![ring](http://keeganlee.me/android/_image/20150830/C89E4D64-2A95-45C1-B4A9-4FC03EE18F4F.jpeg)
+
+ring由几个对应的属性在shape中设置
+
+- *android:innerRadius* 内环的半径
+- *android:innerRadiusRatio* 浮点型，以环的宽度比率来表示内环的半径，默认为3，表示内环半径为环的宽度除以3，该值会被android:innerRadius覆盖
+- *android:thickness* 环的厚度
+- *android:thicknessRatio* 浮点型，以环的宽度比率来表示环的厚度，默认为9，表示环的厚度为环的宽度除以9，该值会被android:thickness覆盖
+- *android:useLevel* 一般为false，否则可能环形无法显示，只有作为LevelListDrawable使用时才设为true
+
+
+
+第一个图只添加了solid；第二个图只添加了gradient，类型为sweep；第三个图只添加了stroke；第四个图添加了gradient和stroke两项特性。
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="ring"
+    android:useLevel="false"
+    android:innerRadius="40dp"
+    android:thickness="5dp"
+    >
+
+    <solid android:color="@color/douban_Title"/>
+
+    <gradient
+        android:type="sweep"
+        android:gradientRadius="50dp"
+        android:startColor="@color/varyWhite"
+        android:centerColor="@color/douban_Title"
+        />
+
+
+</shape>
+```
+
+
+
+如何将环转起来，加一层rotate
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<rotate xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fromDegrees="0"
+    android:pivotX="50%"
+    android:pivotY="50%"
+    android:toDegrees="1080.0">
+    <shape
+        android:innerRadiusRatio="3"
+        android:shape="ring"
+        android:thicknessRatio="8"
+        android:useLevel="false">
+        <gradient
+            android:endColor="#2F90BD"
+            android:startColor="#FFFFFF"
+            android:type="sweep" />
+    </shape>
+</rotate>
+```
